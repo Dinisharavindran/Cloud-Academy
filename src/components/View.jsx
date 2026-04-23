@@ -33,12 +33,19 @@ export default function View({ files, fetchFiles, setPage }) {
     setTimeout(() => setRefreshing(false), 600);
   }, [fetchFiles]);
 
-  const filtered = files.filter(f => {
-     if (!f || !f.name) return false; // 🔥 prevent crash
+ const filtered = (files || [])
+  .filter((f) => {
+    // 🔥 safety check
+    if (!f || typeof f !== "object" || !f.name) return false;
 
-  const matchSearch = f.name.toLowerCase().includes(search.toLowerCase());
-  const { label } = getFileInfo(f.name);
+    const name = f.name.toLowerCase();
+    const searchText = (search || "").toLowerCase();
+
+    const matchSearch = name.includes(searchText);
+
+    const { label } = getFileInfo(f.name || "");
     const matchFilter = filter === "All" || label === filter;
+
     return matchSearch && matchFilter;
   });
 
