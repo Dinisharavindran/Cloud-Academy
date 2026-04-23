@@ -34,8 +34,8 @@ export default function View({ files, fetchFiles, setPage }) {
   }, [fetchFiles]);
 
   const filtered = files.filter(f => {
-    const matchSearch = f.toLowerCase().includes(search.toLowerCase());
-    const { label } = getFileInfo(f);
+     const matchSearch = f.name.toLowerCase().includes(search.toLowerCase());
+  const { label } = getFileInfo(f.name);
     const matchFilter = filter === "All" || label === filter;
     return matchSearch && matchFilter;
   });
@@ -119,7 +119,7 @@ export default function View({ files, fetchFiles, setPage }) {
             return (
               <div className="fcard" key={i} style={{ animationDelay: `${i * 0.04}s` }}>
                 <div className={`fcard-icon ${cls}`}>{icon}</div>
-                <div className="fcard-name" title={file}>{file}</div>
+                <div className="fcard-name" title={file.name}>{file.name}</div>
                 <div className="fcard-meta">
                   <span>{label}</span>
                   <span className="fcard-meta-dot" />
@@ -127,7 +127,7 @@ export default function View({ files, fetchFiles, setPage }) {
                 </div>
                 <div className="fcard-actions">
                   <a
-                    href={`http://localhost:3009/uploads/${file}`}
+                   href={file.url}
                     target="_blank" rel="noreferrer"
                     style={{ flex: 1, textDecoration: "none" }}
                   >
@@ -146,11 +146,11 @@ export default function View({ files, fetchFiles, setPage }) {
               <div className="frow" key={i} style={{ animationDelay: `${i * 0.03}s` }}>
                 <div className={`frow-icon ${cls}`}>{icon}</div>
                 <div className="frow-info">
-                  <div className="frow-name" title={file}>{file}</div>
+                  <div className="frow-name" title={file.name}>{file.name}</div>
                   <div className="frow-sub">{label} · Public</div>
                 </div>
                 <a
-                  href={`http://localhost:3009/uploads/${file}`}
+                  href={file.url}
                   target="_blank" rel="noreferrer"
                 >
                   <button className="frow-dl">⬇ Download</button>
