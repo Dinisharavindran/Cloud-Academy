@@ -61,11 +61,7 @@ function App() {
     getUser();
   }, []);
 
-  useEffect(() => {
-  if (user) {
-    fetchFiles();
-  }
-}, [user, fetchFiles]);
+  
 
   // ✅ FETCH FILES
   const fetchFiles = useCallback(async () => {
@@ -87,7 +83,11 @@ function App() {
     setFiles([]);
   }
 }, [user]); // ✅ important
-
+useEffect(() => {
+  if (user) {
+    fetchFiles();
+  }
+}, [user, fetchFiles]);
   return (
     <div className="app">
       <Navbar
