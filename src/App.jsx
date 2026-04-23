@@ -33,14 +33,18 @@ function App() {
   }, []);
 
   const fetchFiles = useCallback(async () => {
-    try {
-      const res = await fetch("http://localhost:3009/files");
-      const data = await res.json();
-      setFiles(data);
-    } catch (err) {
-      console.error("Error fetching files:", err);
-    }
-  }, []);
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/files`);
+    const data = await res.json();
+
+    console.log("FILES FROM API:", data);
+
+    setFiles(Array.isArray(data) ? data : []);
+  } catch (err) {
+    console.error("Error fetching files:", err);
+    setFiles([]);
+  }
+}, []);
 
   return (
     <div className="app">
