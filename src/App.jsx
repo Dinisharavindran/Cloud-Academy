@@ -67,8 +67,10 @@ function App() {
   const fetchFiles = useCallback(async () => {
   try {
     const res = await fetch(
-      `${import.meta.env.VITE_API_URL}/files?user=${user?.userDetails?.split("@")[0]}`
-    );
+  `${import.meta.env.VITE_API_URL}/files?user=${
+    user?.userDetails ? user.userDetails.split("@")[0] : ""
+  }`
+);
     const data = await res.json();
 
     console.log("FILES FROM API:", data);
