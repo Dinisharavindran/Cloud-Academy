@@ -8,9 +8,7 @@ import View from "./components/View";
 import "./App.css";
 import { useEffect } from "react";
 
-useEffect(() => {
-  fetchFiles();
-}, [fetchFiles]);
+
 
 function Toast({ toasts }) {
   return (
@@ -63,25 +61,32 @@ function App() {
     getUser();
   }, []);
 
+  useEffect(() => {
+  if (user) {
+    fetchFiles();
+  }
+}, [user, fetchFiles]);
+
   // ✅ FETCH FILES
   const fetchFiles = useCallback(async () => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/files?user=${user?.userDetails?.split("@")[0]}`)
-      const data = await res.json();
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/files?user=${user?.userDetails?.split("@")[0]}`
+    );
+    const data = await res.json();
 
-      console.log("FILES FROM API:", data);
+    console.log("FILES FROM API:", data);
 
-      // ✅ prevent crash
-      if (Array.isArray(data)) {
-        setFiles(data.filter(f => f && f.name && f.url));
-      } else {
-        setFiles([]);
-      }
-    } catch (err) {
-      console.error("Error fetching files:", err);
+    if (Array.isArray(data)) {
+      setFiles(data.filter(f => f && f.name && f.url));
+    } else {
       setFiles([]);
     }
-  }, []);
+  } catch (err) {
+    console.error("Error fetching files:", err);
+    setFiles([]);
+  }
+}, [user]); // ✅ important
 
   return (
     <div className="app">

@@ -27,7 +27,9 @@ export default function View({ files, fetchFiles, setPage }) {
   const [layout, setLayout] = useState("grid");
   const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => { fetchFiles(); }, []);
+  useEffect(() => {
+  if (fetchFiles) fetchFiles();
+}, [fetchFiles]);
 
   const refresh = useCallback(async () => {
     setRefreshing(true);
