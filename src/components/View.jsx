@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 
 function getFileInfo(name = "") {
+  if (typeof name !== "string") name = "";
+
   const ext = name.split(".").pop().toLowerCase();
   if (["pdf"].includes(ext))
     return { icon: "📄", cls: "pdf", label: "PDF" };
@@ -124,7 +126,7 @@ export default function View({ files, fetchFiles, setPage }) {
       ) : layout === "grid" ? (
         <div className="files-grid">
           {filtered.map((file, i) => {
-            const { icon, cls, label } = getFileInfo(file);
+            const { icon, cls, label } = getFileInfo(file.name);
             return (
               <div className="fcard" key={i} style={{ animationDelay: `${i * 0.04}s` }}>
                 <div className={`fcard-icon ${cls}`}>{icon}</div>
@@ -150,7 +152,7 @@ export default function View({ files, fetchFiles, setPage }) {
       ) : (
         <div className="files-list">
           {filtered.map((file, i) => {
-            const { icon, cls, label } = getFileInfo(file);
+            const { icon, cls, label } = getFileInfo(file.name);
             return (
               <div className="frow" key={i} style={{ animationDelay: `${i * 0.03}s` }}>
                 <div className={`frow-icon ${cls}`}>{icon}</div>
