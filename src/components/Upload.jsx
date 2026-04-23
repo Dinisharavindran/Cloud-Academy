@@ -38,7 +38,7 @@ function Upload({ user, fetchFiles, setPage, addToast }) {
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("user", user);
+    formData.append("user", user.userDetails);
 
     try {
       setLoading(true);
@@ -90,7 +90,7 @@ function Upload({ user, fetchFiles, setPage, addToast }) {
             display:"flex", gap:"10px", alignItems:"center"
           }}>
             <span>⚠️</span>
-            <span>You need to <strong style={{cursor:"pointer", textDecoration:"underline"}} onClick={() => setPage("login")}>log in</strong> to upload files.</span>
+            <span>You need to <strong style={{cursor:"pointer", textDecoration:"underline"}} onClick={() => (window.location.href = "/.auth/login/aad")}>log in</strong> to upload files.</span>
           </div>
         )}
 
@@ -165,7 +165,12 @@ function Upload({ user, fetchFiles, setPage, addToast }) {
         <div className="section-divider" style={{marginTop:"28px"}} />
 
         <h2 style={{marginBottom:"4px"}}>Your Stats</h2>
-        <p>Uploading as <strong style={{color:"var(--v1)"}}>{user || "guest"}</strong></p>
+        <p>
+  Uploading as{" "}
+  <strong style={{ color: "var(--v1)" }}>
+    {user?.userDetails?.split("@")[0] || "guest"}
+  </strong>
+</p>
 
         <div className="upload-stats">
           <div className="ustat">
