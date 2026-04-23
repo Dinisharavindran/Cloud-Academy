@@ -34,7 +34,9 @@ export default function View({ files, fetchFiles, setPage }) {
   }, [fetchFiles]);
 
   const filtered = files.filter(f => {
-     const matchSearch = f.name.toLowerCase().includes(search.toLowerCase());
+     if (!f || !f.name) return false; // 🔥 prevent crash
+
+  const matchSearch = f.name.toLowerCase().includes(search.toLowerCase());
   const { label } = getFileInfo(f.name);
     const matchFilter = filter === "All" || label === filter;
     return matchSearch && matchFilter;
